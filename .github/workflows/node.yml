@@ -15,7 +15,6 @@ jobs:
       matrix:
         node-version: [14.x, 16.x, 18.x, 20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -24,11 +23,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: |
-      cd vue
-      npm ci
+        cd vue
+        npm ci
     - run: |
-      cd vue
-      npm run build --if-present
+        cd vue
+        npm run build --if-present
     - run: |
-      cd vue
-      npm test
+        cd vue
+        npm test
