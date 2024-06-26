@@ -30,6 +30,9 @@ jobs:
         composer install
         php artisan key:generate
         chmod -R 775 storage bootstrap/cache
+        mkdir -p database
+        touch database/database.sqlite
+        php artisan serve &
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -37,14 +40,9 @@ jobs:
         cache: 'npm'
         cache-dependency-path: './vue/package-lock.json'
     - name: Execute tests
+      run: |
+        npm ci
+        npm run test:e2e:ci
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: ../laravel/database/database.sqlite
-      run: |
-        cd ../laravel
-        mkdir -p database
-        touch database/database.sqlite
-        php artisan serve &
-        cd ../vue
-        npm ci
-        npm run test:e2e:ci
