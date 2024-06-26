@@ -52,7 +52,13 @@ jobs:
         cache: 'npm'
         cache-dependency-path: './vue/package-lock.json'
     - name: Execute tests
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
       run: |
+        cd ../laravel
+        php artisan serve &
+        cd ../vue
         npm ci
         npm run build --if-present
         npm test
