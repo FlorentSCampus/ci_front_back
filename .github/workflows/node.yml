@@ -54,7 +54,7 @@ jobs:
     - name: Execute tests
       env:
         DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
+        DB_DATABASE: ../laravel/database/database.sqlite
       run: |
         cd ../laravel
         php artisan serve &
