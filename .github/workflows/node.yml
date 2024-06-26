@@ -19,13 +19,10 @@ jobs:
       matrix:
         node-version: [20.x]
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: './vue/package-lock.json'
+        php-version: '8.3.8'
+    - uses: actions/checkout@v4
     - name: PHP dependencies install
       run: |
         apt-get update -y
@@ -43,6 +40,13 @@ jobs:
         cd ../laravel
         mkdir -p database
         touch database/database.sqlite
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: './vue/package-lock.json'
     - name: Execute tests
       run: |
         npm ci
