@@ -26,6 +26,25 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: './vue/package-lock.json'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - name: PHP dependencies install
+    - run: |
+        apt-get update -y
+        apt-get install -y php-sqlite3 phpunit unzip curl
+        curl -sS https://getcomposer.org/installer | php
+        mv composer.phar /usr/local/bin/composer
+    - name: Launched Laravel
+      run: |
+        cd ../laravel
+        php -r "file_exists('.env') || copy('.env.example', '.env');"
+        php artisan key:generate
+        chmod -R 775 storage bootstrap/cache
+    - name: Create Database
+      run: |
+        cd ../laravel
+        mkdir -p database
+        touch database/database.sqlite
+    - name: Execute tests
+      run: |
+        npm ci
+        npm run build --if-present
+        npm test
