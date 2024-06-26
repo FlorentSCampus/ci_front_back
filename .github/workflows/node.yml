@@ -27,7 +27,7 @@ jobs:
         cache: 'npm'
         cache-dependency-path: './vue/package-lock.json'
     - name: PHP dependencies install
-    - run: |
+      run: |
         apt-get update -y
         apt-get install -y php-sqlite3 phpunit unzip curl
         curl -sS https://getcomposer.org/installer | php
