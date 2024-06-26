@@ -26,7 +26,9 @@ jobs:
         cd laravel
         composer install
     - name: Generate key
-      run: php artisan key:generate
+      run: |
+        cd laravel
+        php artisan key:generate
     - name: Directory Permissions
       run: |
         cd laravel
