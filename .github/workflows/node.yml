@@ -11,6 +11,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    defaults:
+       run:
+         working-directory: ./vue
+
     strategy:
       matrix:
         node-version: [20.x]
@@ -23,8 +27,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-      working-directory: vue
     - run: npm run build --if-present
-      working-directory: vue
     - run: npm test
-      working-directory: vue
