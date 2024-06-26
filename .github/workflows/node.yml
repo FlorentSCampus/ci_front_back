@@ -23,17 +23,21 @@ jobs:
       with:
         php-version: '8.3.8'
     - uses: actions/checkout@v4
-    - name: PHP dependencies install
-      run: |
-        apt-get update -y
-        apt-get install -y php-sqlite3 phpunit unzip curl
-        curl -sS https://getcomposer.org/installer | php
-        mv composer.phar /usr/local/bin/composer
-    - name: Launched Laravel
+    - name: Copy .env
       run: |
         cd ../laravel
         php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Install Dependencies
+      run:  |
+        cd ../laravel
+        composer install
+    - name: Generate key
+      run:  |
+        cd ../laravel
         php artisan key:generate
+    - name: Directory Permissions
+      run:  |
+        cd ../laravel
         chmod -R 775 storage bootstrap/cache
     - name: Create Database
       run: |
